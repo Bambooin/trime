@@ -41,11 +41,16 @@ jobs:
             ./gradlew :app:calculateNativeCacheHash
 
       - name: Fetch JNI cache
-        uses: actions/cache@v6
+        uses: actions/cache@v6e09ac7114fa067904ed358e82d499516cb423ff4
         id: jni-cache
         with:
           path: "app/prebuilt"
           key: ${{ runner.os }}-trime-jni-release-${{ steps.cache-hash.outputs.native-cache-hash }}
+
+      - name: Fetch submodules
+        if: ${{ !steps.jni-cache.outputs.cache-hit }}
+        run: |
+          git submodule update --init --recursive
 
       - name: Setup Keystore
         run: |
