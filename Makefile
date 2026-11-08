@@ -16,7 +16,7 @@ endif
 
 
 .PHONY: all clean build debug check spotlessCheck spotlessApply clang-format-lint clang-format style-lint \
-style-apply patch-apply release install translate ndk android
+style-apply patch-apply release install translate ndk android tag
 
 all: release
 
@@ -72,6 +72,10 @@ reuse:
 # generate changlog
 cliff:
 	git-cliff -o CHANGELOG.md
+
+# create the release changelog commit and tag
+tag:
+	./script/tag.sh
 
 TRANSLATE=$(resDir)/values-zh-rCN/strings.xml
 release: patch-apply
